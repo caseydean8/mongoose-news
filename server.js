@@ -1,39 +1,36 @@
-// Parses our HTML and helps us find elements
-var cheerio = require("cheerio");
+// Parses HTML to find elements
+const cheerio = require("cheerio");
+
 // Makes HTTP request for HTML page
-var axios = require("axios");
+const axios = require("axios");
 
 // First, tell the console what server.js is doing
-console.log("engage wikileaks scrapetron");
+console.log("*** ENGAGE WIKILEAKS SCRAPETRON ***");
 
 // Making a request via axios for reddit's "webdev" board. The page's HTML is passed as the callback's third argument
-axios.get("https://wikileaks.org/-News-.html").then(function(response) {
 
-  // Load the HTML into cheerio and save it to a variable
+// axios request for wikileaks news page
+axios.get("https://wikileaks.org/-News-.html").then((response)=> {
+
+  // Load the HTML into cheerio and save it to a const variable
   // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-  var $ = cheerio.load(response.data);
+  const $ = cheerio.load(response.data);
 
-  // An empty array to save the data that we'll scrape
-  var results = [];
+  const results = [];
 
-  // With cheerio, find each p-tag with the "title" class
-  // (i: iterator. element: the current element)
-  $("h3.title").each(function(i, element) {
+  $("li").each((i, element) => {
 
-    // Save the text of the element in a "title" variable
-    var title = $(element).text();
+    const title = $(element).children(".title").text();
 
-    // In the currently selected element, look at its child elements (i.e., its a-tags),
-    // then save the values for any "href" attributes that the child elements may have
-    var link = $(element).children().attr("href");
+    const link = $(element).children().find("a").attr("href");
 
-    // Save these results in an object that we'll push into the results array we defined earlier
-    results.push({
-      title: title,
-      link: link
-    });
+    const date = $(element).children(".timestamp").text().trim();
+
+
+    const summary = $(element).children().find("p").text().trim();
+    
+    results.push({ title, link, date, summary });
   });
 
-  // Log the results once you've looped through each of the elements found with cheerio
   console.log(results);
 });
