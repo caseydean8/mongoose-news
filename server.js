@@ -1,6 +1,6 @@
 var express = require("express");
 var mongoose = require("mongoose");
-
+const ehb = require('express-handlebars')
 const path = require("path");
 // Parses HTML to find elements
 const cheerio = require("cheerio");
@@ -35,25 +35,25 @@ mongoose.connect("mongodb://localhost/wiki-scraper", { useNewUrlParser: true });
 // may be necessary REMOVE LATER
 // app.engine('handlebars', ehb({ defaultLayout: 'main' }))
 
-app.set('views', path.join(__dirname + "views"));
-
+// app.set('views', path.join(__dirname + "views"));
+app.engine('handlebars', ehb({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 
-// Retrieve data from the db
-app.get("/", function(req, res) {
-    // Find all results from the scrapedData collection in the db
-    db.scrapedData.find({}, function(error, found) {
-      // Throw any errors to the console
-      if (error) {
-        console.log(error);
-      }
-      // If there are no errors, send the data to the browser as json
-      else {
-        res.json(found);
-      }
-    });
-  });
+// // Retrieve data from the db
+// app.get("/", function(req, res) {
+//     // Find all results from the scrapedData collection in the db
+//     db.scrapedData.find({}, function(error, found) {
+//       // Throw any errors to the console
+//       if (error) {
+//         console.log(error);
+//       }
+//       // If there are no errors, send the data to the browser as json
+//       else {
+//         res.json(found);
+//       }
+//     });
+//   });
 
 
 
@@ -90,10 +90,12 @@ app.get("/scrape", function(req, res) {
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
     // Grab every document in the Articles collection
-    db.scrapedData.find({})
+    db.Article.find({})
       .then(function(dbArticle) {
+        console.log(dbArticle);
+        let indexDisplay = { articles: dbArticle}
         // If we were able to successfully find Articles, send them back to the client
-        res.json(dbArticle);
+        res.render("index", indexDisplay);
       })
       .catch(function(err) {
         // If an error occurred, send it to the client

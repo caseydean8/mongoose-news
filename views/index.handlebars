@@ -1,0 +1,33 @@
+<div class="row" style="margin-top: 10%">
+  <h1>Wiki Scrape</h1>
+</div>
+
+<div class="row">
+  <div class="column">
+    <h5>articles</h5>
+    <ul>
+      {{#each articles}}
+      <li>
+          {{this.title}}
+          {{this.date}}
+          {{this.summary}}
+          {{this.link}}
+          {{!-- <button class="comment" data-id="{{id}}" data-isdevoured="{{devoured}}">eat it!</button> --}}
+      
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
+
+{{!-- <h2>Add a Burger</h2>
+<form class="create-form" action="/api/burgers" method="POST">
+
+  <div class="form-group">
+    <label for="">Burger Name:</label>
+    <input type="text" name="burger_name">
+  </div>
+
+  <button type="submit">Add Burger</button>
+</form> --}}

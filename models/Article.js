@@ -27,10 +27,9 @@ const ArticleSchema = new Schema({
   },
 
   // comment is an object that stores a Comment id
-  // The ref property links the ObjectId to the Note model
-  // This allows us to populate the Article with an associated Note
   comment: {
     type: Schema.Types.ObjectId,
+    // The ref option is what tells Mongoose which model to use during population
     ref: "Comments"
   }
 });
