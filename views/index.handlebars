@@ -8,26 +8,18 @@
     <ul>
       {{#each articles}}
       <li>
-          {{this.title}}
-          {{this.date}}
-          {{this.summary}}
-          {{this.link}}
-          {{!-- <button class="comment" data-id="{{id}}" data-isdevoured="{{devoured}}">eat it!</button> --}}
-      
+        <a href="{{this.link}}">
+          <h5>{{this.title}}</h5>
+        </a>
+        <br>
+        {{this.date}}
+        <br>
+        {{this.summary}}
+        <br>
+        <button class="comment">comment</button>
       </li>
+      <br>
       {{/each}}
     </ul>
   </div>
 </div>
-
-
-{{!-- <h2>Add a Burger</h2>
-<form class="create-form" action="/api/burgers" method="POST">
-
-  <div class="form-group">
-    <label for="">Burger Name:</label>
-    <input type="text" name="burger_name">
-  </div>
-
-  <button type="submit">Add Burger</button>
-</form> --}}
