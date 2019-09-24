@@ -83,7 +83,8 @@ app.get("/scrape", function(req, res) {
             .catch(err => console.log(err));
         });
 
-    res.send("scrape complete")
+    // res.send("scrape complete")
+    res.redirect("/articles")
     });
 });
 

@@ -1,4 +1,5 @@
 module.exports = {
     Article: require("./Article"),
-    Comment: require("./Comments")
+    Comment: require("./Comments"),
+    User: require("./Users")
   };
