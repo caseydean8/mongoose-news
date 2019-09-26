@@ -37,6 +37,7 @@ mongoose.connect("mongodb://localhost/wiki-scraper", { useNewUrlParser: true });
 
 // app.set('views', path.join(__dirname + "views"));
 app.engine('handlebars', ehb({ defaultLayout: 'main' }))
+
 app.set('view engine', 'handlebars')
 
 
@@ -84,12 +85,12 @@ app.get("/scrape", function(req, res) {
         });
 
     // res.send("scrape complete")
-    res.redirect("/articles")
+    res.redirect("/")
     });
 });
 
 // Route for getting all Articles from the db
-app.get("/articles", function(req, res) {
+app.get("/", function(req, res) {
     // Grab every document in the Articles collection
     db.Article.find({})
       .then(function(dbArticle) {
@@ -102,6 +103,27 @@ app.get("/articles", function(req, res) {
         // If an error occurred, send it to the client
         res.json(err);
       });
+  });
+
+  app.get("/comments", (req, res) => {
+    res.render("comment")
+  })
+
+  // POST route for comments
+  app.post("/comment", function(req, res) {
+    console.log(req.body);
+    // Insert the note into the notes collection
+    db.Comments.insert(req.body, function(error, saved) {
+      // Log any errors
+      if (error) {
+        console.log(error);
+      }
+      else {
+        // Otherwise, send the note back to the browser
+        // This will fire off the success function of the ajax request
+        res.send(saved);
+      }
+    });
   });
 
 app.listen(3000, function() {

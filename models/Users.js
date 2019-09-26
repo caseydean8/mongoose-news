@@ -42,7 +42,7 @@ var UserSchema = new Schema({
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var Users = mongoose.model("User", UserSchema);
+var Users = mongoose.model("Users", UserSchema);
 
 // Export the User model
 module.exports = Users;
