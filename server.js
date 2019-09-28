@@ -40,6 +40,8 @@ app.engine('handlebars', ehb({ defaultLayout: 'main' }))
 
 app.set('view engine', 'handlebars')
 
+app.get("/", (req, res) => res.redirect("articles"))
+
 app.get("/scrape", function(req, res) {
     // lmk what server.js is up to
     console.log("*** ENGAGE WIKILEAKS SCRAPETRON ***");
@@ -72,7 +74,7 @@ app.get("/scrape", function(req, res) {
 });
 
 // Route for getting all Articles from the db
-app.get("/", function(req, res) {
+app.get("/articles", function(req, res) {
     // Grab every document in the Articles collection
     db.Article.find({})
       .then(function(dbArticle) {
@@ -87,15 +89,19 @@ app.get("/", function(req, res) {
       });
   });
 
- // Route for grabbing a specific Article by id, populate it with it's note
+  app.get("/comment-page", (req, res) => {
+    res.render("article")
+  })
+
+ // Route for grabbing a specific Article by id, populate it with it's comments
 app.get("/articles/:id", function(req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOne({ _id: req.params.id })
     // ..and populate all of the notes associated with it
-    .populate("note")
+    .populate("comment")
     .then(function(dbArticle) {
       // If we were able to successfully find an Article with the given id, send it back to the client
-      res.render("article", dbArticle);
+      res.json(dbArticle);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
@@ -110,7 +116,7 @@ app.get("/articles/:id", function(req, res) {
         // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
         // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
         // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-        return db.Comments.findOneAndUpdate({ _id: req.params.id }, { comment: dbComments._id }, { new: true });
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComments._id }, { new: true });
       })
       .then(function(dbArticle) {
         // If we were able to successfully update an Article, send it back to the client
@@ -122,22 +128,7 @@ app.get("/articles/:id", function(req, res) {
       });
   });
 
-  // POST route for comments
-  // app.post("/comment", function(req, res) {
-  //   console.log(req.body);
-  //   // Insert the note into the notes collection
-  //   db.Comments.insert(req.body, function(error, saved) {
-  //     // Log any errors
-  //     if (error) {
-  //       console.log(error);
-  //     }
-  //     else {
-  //       // Otherwise, send the note back to the browser
-  //       // This will fire off the success function of the ajax request
-  //       res.send(saved);
-  //     }
-  //   });
-  // });
+
 
 app.listen(3000, function() {
     console.log("App running on port 3000!");

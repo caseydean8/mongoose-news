@@ -18,13 +18,14 @@
     <div class="modal-content">
 
       <!-- Modal Header -->
-      {{!-- <div class="modal-header">
-        <h4 class="modal-title">Modal Heading</h4>
+      <div class="modal-header">
+        <h4 class="modal-title">{{this.title}}</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div> --}}
+      </div>
 
       <!-- Modal body -->
       <div class="modal-body">
+        <h4 class="modal-title">{{articles.title}}</h4>
         <div class="form-group">
             <label for="comment">add comment</label>
             <textarea class="form-control" rows="5" id="comment"></textarea>
@@ -59,7 +60,7 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{this.id}}" data-target="#myModal">
           comment
         </button>
-        <a href="/articles">comments</a>
+        <a href="/comment-page">comments</a>
       </li>
       <br>
       {{/each}}
