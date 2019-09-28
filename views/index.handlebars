@@ -18,19 +18,22 @@
     <div class="modal-content">
 
       <!-- Modal Header -->
-      <div class="modal-header">
+      {{!-- <div class="modal-header">
         <h4 class="modal-title">Modal Heading</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
+      </div> --}}
 
       <!-- Modal body -->
       <div class="modal-body">
-        Modal body..
+        <div class="form-group">
+            <label for="comment">add comment</label>
+            <textarea class="form-control" rows="5" id="comment"></textarea>
+        </div>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" action="/articles/:id" method="POST">publish</button>
       </div>
 
     </div>
@@ -44,7 +47,7 @@
     <ul>
       {{#each articles}}
       <li>
-        <a href="{{this.link}}">
+        <a href="https://wikileaks.org/{{this.link}}">
           <h5>{{this.title}}</h5>
         </a>
         <br>
@@ -52,10 +55,11 @@
         <br>
         {{this.summary}}
         <br>
-        <a href="/comments"><button class="comment" method="POST">comment</button></a>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-          Open modal
+        {{!-- <a href="/comments"><button class="comment" method="POST">comment</button></a> --}}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{this.id}}" data-target="#myModal">
+          comment
         </button>
+        <a href="/articles">comments</a>
       </li>
       <br>
       {{/each}}
