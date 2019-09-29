@@ -89,9 +89,9 @@ app.get("/articles", function(req, res) {
       });
   });
 
-  app.get("/comment-page", (req, res) => {
-    res.render("article")
-  })
+  // app.get("/comment-page", (req, res) => {
+  //   res.render("article")
+  // })
 
  // Route for grabbing a specific Article by id, populate it with it's comments
 app.get("/articles/:id", function(req, res) {
@@ -101,7 +101,7 @@ app.get("/articles/:id", function(req, res) {
     .populate("comment")
     .then(function(dbArticle) {
       // If we were able to successfully find an Article with the given id, send it back to the client
-      res.json(dbArticle);
+      res.render("article", dbArticle);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
@@ -109,7 +109,7 @@ app.get("/articles/:id", function(req, res) {
     });
 });
 
-  app.post("/articles/:id", function(req, res) {
+  app.post("/:id", function(req, res) {
     // Create a new note and pass the req.body to the entry
     db.Comments.create(req.body)
       .then(function(dbComments) {
