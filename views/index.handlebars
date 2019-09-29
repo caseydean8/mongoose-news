@@ -56,11 +56,10 @@
         <br>
         {{this.summary}}
         <br>
-        {{!-- <a href="/comments"><button class="comment" method="POST">comment</button></a> --}}
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{this.id}}">
+        
+        <a href="/articles/{{this.id}}"><button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{this.id}}">
           comment
-        </button>
-        <a href="/articles/{{this.id}}">comments</a>
+        </button></a>
       </li>
       <br>
       {{/each}}

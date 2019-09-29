@@ -32,10 +32,6 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/wiki-scraper", { useNewUrlParser: true });
 
-// may be necessary REMOVE LATER
-// app.engine('handlebars', ehb({ defaultLayout: 'main' }))
-
-// app.set('views', path.join(__dirname + "views"));
 app.engine('handlebars', ehb({ defaultLayout: 'main' }))
 
 app.set('view engine', 'handlebars')
@@ -64,6 +60,7 @@ app.get("/scrape", function(req, res) {
             result.summary = $(element).children().find("p").text().trim();
 
             db.Article.create(result)
+            console.log(result)
             .then(dbArt => console.log(dbArt))
             .catch(err => console.log(err));
         });
@@ -78,7 +75,7 @@ app.get("/articles", function(req, res) {
     // Grab every document in the Articles collection
     db.Article.find({})
       .then(function(dbArticle) {
-        console.log(dbArticle);
+        // console.log(dbArticle);
         let indexDisplay = { articles: dbArticle}
         // If we were able to successfully find Articles, send them back to the client
         res.render("index", indexDisplay);
@@ -88,10 +85,6 @@ app.get("/articles", function(req, res) {
         res.json(err);
       });
   });
-
-  // app.get("/comment-page", (req, res) => {
-  //   res.render("article")
-  // })
 
  // Route for grabbing a specific Article by id, populate it with it's comments
 app.get("/articles/:id", function(req, res) {
@@ -109,8 +102,9 @@ app.get("/articles/:id", function(req, res) {
     });
 });
 
-  app.post("/:id", function(req, res) {
+  app.post("/articles/:id", function(req, res) {
     // Create a new note and pass the req.body to the entry
+    console.log(req.body + " post route")
     db.Comments.create(req.body)
       .then(function(dbComments) {
         // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
