@@ -13,35 +13,6 @@
   </div>
 </div>
 
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">{{this.title}}</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        <h4 class="modal-title">{{articles.title}}</h4>
-        <div class="form-group">
-            <label for="comment">add comment</label>
-            <textarea class="form-control" rows="5" id="comment"></textarea>
-        </div>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" action="/articles/:id" method="POST">publish</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
 <div class="row">
   <div class="column">
     <h5>articles</h5>
@@ -57,7 +28,7 @@
         {{this.summary}}
         <br>
         
-        <a href="/articles/{{this.id}}"><button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{this.id}}">
+        <a href="/articles/{{this.id}}"><button type="button" class="btn btn-primary" data-id="{{this.id}}">
           comment
         </button></a>
       </li>

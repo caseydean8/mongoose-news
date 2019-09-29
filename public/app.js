@@ -28,3 +28,17 @@ $(document).on("click", ".post-button", function() {
     $("#.comment").val("");
   });
   
+  $(document).on("click", ".delete", function() {
+    const id = $(this).attr("data-id");
+    $.ajax({
+      method: "DELETE",
+      url: "/articles/" + id,
+      data: {
+        
+      }
+    })
+    .then(function(data) {
+      console.log(data)
+    })
+
+  })

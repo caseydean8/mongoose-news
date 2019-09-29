@@ -126,7 +126,15 @@ app.get("/articles/:id", function(req, res) {
       });
   });
 
-
+  app.delete("/articles/:id", function(req, res) {
+    // if (err) throw err;
+  var myquery = { _id: req.params.id};
+  console.log(myquery);
+  db.Comments.deleteOne(myquery, function(err, obj) {
+    if (err) throw err;
+    console.log("1 document deleted");
+  });
+});
 
 app.listen(3000, function() {
     console.log("App running on port 3000!");
