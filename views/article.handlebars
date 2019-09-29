@@ -31,8 +31,8 @@
     <div class="col s2"></div>
     <div class="col s8">
         <h5>comments</h5>
-        {{#if articles.comment}}
-        {{#each articles.comment}}
+        {{#if this.comment}}
+        {{#each this.comment}}
         <div class="card">
             <p id="nameComment">{{this.name}}</p>
             <p>{{this.comment}}<p>

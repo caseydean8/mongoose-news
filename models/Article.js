@@ -27,11 +27,13 @@ const ArticleSchema = new Schema({
   },
 
   // comment is an object that stores a Comment id
-  comment: {
+  comment: [
+    {
     type: Schema.Types.ObjectId,
     // The ref option is what tells Mongoose which model to use during population
     ref: "Comments"
   }
+]
 });
 
 // This creates our model from the above schema, using mongoose's model method
