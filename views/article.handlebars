@@ -9,14 +9,14 @@
     <form>
         <h5>Comment on this</h5>
         <div class="row">
-            <div class="name">
+            <div>
                 <i class="material-icons prefix">name</i>
-                <input id="icon-prefix" type="text" placeholder="Name" name="name" class="validate-active">
+                <input type="text" class="name">
             </div>
             
-            <div class="comment">
-                <i class="material-icons prefix">comment</i>
-                <input id="icon_telephone" type="text" placeholder="Comment" name="comment" class="validate-active">
+            <div >
+                <i class="material-icons prefix"></i>comment</i>
+                <textarea class="comment" type="text" ></textarea>
             </div>
         </div>
         <div class="row">
@@ -34,8 +34,8 @@
         {{#if articles.comment}}
         {{#each articles.comment}}
         <div class="card">
-            <p id="nameComment">{{name}}</p>
-            <p>{{body}}<p>
+            <p id="nameComment">{{this.name}}</p>
+            <p>{{this.comment}}<p>
         </div>
         {{/each}}
         {{else}}

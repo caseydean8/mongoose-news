@@ -1,11 +1,4 @@
-// $(document).on("click", ".comment", function() {
-//     const thisId = $(this).attr("data-id");
-//     });
 
-//     $(document).on("click", "#get-new", function() {
-//         console.log("get new articles button clicked");
-//         $("#get-new").html("searching . . . .");
-//     });
 
 $(document).on("click", ".post-button", function() {
     // Grab the id associated with the article from the submit button

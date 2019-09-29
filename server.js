@@ -114,7 +114,7 @@ app.get("/articles/:id", function(req, res) {
       })
       .then(function(dbArticle) {
         // If we were able to successfully update an Article, send it back to the client
-        res.json(dbArticle);
+        res.render("article", dbArticle);
       })
       .catch(function(err) {
         // If an error occurred, send it to the client
