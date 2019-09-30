@@ -32,13 +32,10 @@ $(document).on("click", ".post-button", function() {
     const id = $(this).attr("data-id");
     $.ajax({
       method: "DELETE",
-      url: "/articles/" + id,
-      data: {
-        
-      }
+      url: "/articles/" + id
     })
-    .then(function(data) {
-      console.log(data)
+    .then(() => {
+      location.reload(true);
     })
 
   })

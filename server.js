@@ -29,12 +29,20 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/wiki-scraper", {
+var MONGODB_URI = process.env.MONGODB_URI || ("mongodb://localhost/wiki-scraper", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
 });
+
+mongoose.connect(MONGODB_URI);
+// Connect to the Mongo DB locally if those parentheses up there don't work
+
+// mongoose.connect("mongodb://localhost/wiki-scraper", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useFindAndModify: false
+// });
 
 app.engine('handlebars', ehb({ defaultLayout: 'main' }))
 
@@ -133,6 +141,14 @@ app.get("/articles/:id", function(req, res) {
   db.Comments.deleteOne(myquery, function(err, obj) {
     if (err) throw err;
     console.log("1 document deleted");
+  })
+  .then(function(dbArticle) {
+    // If we were able to successfully update an Article, send it back to the client
+    res.render("article", dbArticle);
+  })
+  .catch(function(err) {
+    // If an error occurred, send it to the client
+    res.json(err);
   });
 });
 
