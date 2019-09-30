@@ -1,0 +1,11 @@
+body {
+    font-family: 'Oxygen', sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: adobe-garamond-pro, serif;
+}
+
+.main-comment {
+    margin-top: 1rem;
+}

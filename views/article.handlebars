@@ -1,48 +1,37 @@
-<div class="row">
-    <div class="column">
-        <h5>{{this.title}}</h5>
-        <p>{{body}}</p>
+<div class="container">
+    <div class="row">
+        <div class="col s4" style="margin-top: 5%">
+            <h4>{{this.title}}</h4>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <form>
-        <h5>Comment on this</h5>
-        <div class="row">
-            <div>
-                <i class="material-icons prefix">name</i>
+    <div class="row">
+        <div class="col s2">
+            <h5>Comment on this</h5>
+            <h5>Name</h5>
+            <form>
                 <input type="text" class="name">
-            </div>
-            
-            <div >
-                <i class="material-icons prefix"></i>comment</i>
-                <textarea class="comment" type="text" ></textarea>
-            </div>
+                <h5>comment</h5>
+                <textarea class="comment" type="text"></textarea>
+                <br>
+                <button class="btn btn-primary post-button" data-id="{{this.id}}" type="submit"
+                    value="Submit">Submit</button>
+            </form>
         </div>
-        <div class="row">
-            <div class="input-field">
-                <button class="btn btn-primary post-button" data-id="{{this.id}}" type="submit" value="Submit">Submit</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<div class="row">
-    <div class="col s2"></div>
-    <div class="col s8">
+    
+    <div class="col s2">
         <h5>comments</h5>
         {{#if this.comment}}
         {{#each this.comment}}
         <div class="card">
             <p id="nameComment">{{this.name}}</p>
             <p>{{this.comment}}<p>
-            <button class="btn btn-danger delete" data-id="{{this.id}}">delete</button>
+                    <button class="btn btn-danger delete" data-id="{{this.id}}">delete</button>
         </div>
         {{/each}}
         {{else}}
         <p>No Comments Yet.</p>
         {{/if}}
     </div>
+    </div>
 </div>
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="/app.js"></script>
