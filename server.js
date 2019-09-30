@@ -39,11 +39,11 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://Casey:Cdc108mlb@ds123400.
 
 // Connect to the Mongo DB locally if those parentheses up there don't work
 
-mongoose.connect("mongodb://localhost/wiki-scraper", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-});
+// mongoose.connect("mongodb://localhost/wiki-scraper", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useFindAndModify: false
+// });
 
 app.engine('handlebars', ehb({ defaultLayout: 'main' }))
 
@@ -79,7 +79,7 @@ app.get("/scrape", function(req, res) {
         });
 
     // res.send("scrape complete")
-    res.redirect("/")
+    res.redirect("/articles")
     });
 });
 
