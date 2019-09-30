@@ -27,14 +27,13 @@ $(document).on("click", ".post-button", function() {
     $("#.comment").val("");
   });
   
-  $(document).on("click", ".delete", function() {
-    const id = $(this).attr("data-id");
-    $.ajax({
-      method: "DELETE",
-      url: "/articles/" + id
-    })
-    .then(() => {
-      window.location.reload(true);
-    })
-
+$(document).on("click", ".delete", function() {
+  const id = $(this).attr("data-id");
+  $.ajax({
+    method: "DELETE",
+    url: "/articles/" + id
   })
+  .then(() => {
+    window.location.reload(true);
+  })
+});

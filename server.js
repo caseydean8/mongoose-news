@@ -1,22 +1,16 @@
-var express = require("express");
-var mongoose = require("mongoose");
+const express = require("express");
+const mongoose = require("mongoose");
 const ehb = require('express-handlebars')
-const path = require("path");
-// Parses HTML to find elements
 const cheerio = require("cheerio");
-
-// Makes HTTP request for HTML page
 const axios = require("axios");
 
 // Express middleware for logging requests and responses. Used during development so you can see what requests are being made
-var logger = require("morgan");
+const logger = require("morgan");
 
-var db = require("./models");
+const db = require("./models");
+const PORT =3000;
+const app = express();
 
-// Initialize Express
-var app = express();
-
-// hello morgan
 // the :status token will be colored red for server error codes,
 // yellow for client error codes, cyan for redirection codes,
 // and uncolored for all other codes.
@@ -36,15 +30,6 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://Casey:Cdc108mlb@ds123400.
   useFindAndModify: false
 });
 
-
-// Connect to the Mongo DB locally if those parentheses up there don't work
-
-// mongoose.connect("mongodb://localhost/wiki-scraper", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: false
-// });
-
 app.engine('handlebars', ehb({ defaultLayout: 'main' }))
 
 app.set('view engine', 'handlebars')
@@ -52,99 +37,85 @@ app.set('view engine', 'handlebars')
 app.get("/", (req, res) => res.redirect("articles"))
 
 app.get("/scrape", function(req, res) {
-    // lmk what server.js is up to
-    console.log("*** ENGAGE WIKILEAKS SCRAPETRON ***");
-    // axios request for wikileaks news page
-    axios.get("https://wikileaks.org/-News-.html").then((response)=> {
+  console.log("*** ENGAGE WIKILEAKS SCRAPETRON ***");
+  axios.get("https://wikileaks.org/-News-.html").then((response)=> {
+    var $ = cheerio.load(response.data);
+    $("li").each((i, element) => {
+      const result = {};
 
-    // Load the HTML into cheerio and save it to a const variable
-    // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-    const $ = cheerio.load(response.data);
+      result.title = $(element).children(".title").text();
 
-        $("li").each((i, element) => {
-            const result = {};
+      result.link = $(element).children().find("a").attr("href");
 
-            result.title = $(element).children(".title").text();
+      result.date = $(element).children(".timestamp").text().trim();
 
-            result.link = $(element).children().find("a").attr("href");
+      result.summary = $(element).children().find("p").text().trim();
 
-            result.date = $(element).children(".timestamp").text().trim();
-
-            result.summary = $(element).children().find("p").text().trim();
-
-            db.Article.create(result)
-            console.log(result)
-            .then(dbArt => console.log(dbArt))
-            .catch(err => console.log(err));
+      db.Article.create(result)
+      .then(function(dbArticle) {
+        console.log(dbArticle);
+        })
+        .catch(function(err) {
+          console.log(err)
         });
+      });
 
-    // res.send("scrape complete")
     res.redirect("/articles")
     });
 });
 
-// Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
-    // Grab every document in the Articles collection
-    db.Article.find({})
-      .then(function(dbArticle) {
-        // console.log(dbArticle);
-        let indexDisplay = { articles: dbArticle}
-        // If we were able to successfully find Articles, send them back to the client
-        res.render("index", indexDisplay);
-      })
-      .catch(function(err) {
-        // If an error occurred, send it to the client
-        res.json(err);
-      });
-  });
-
- // Route for grabbing a specific Article by id, populate it with it's comments
-app.get("/articles/:id", function(req, res) {
-  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-  db.Article.findOne({ _id: req.params.id })
-    // ..and populate all of the notes associated with it
-    .populate("comment")
+  db.Article.find({})
     .then(function(dbArticle) {
-      // If we were able to successfully find an Article with the given id, send it back to the client
-      res.render("article", dbArticle);
+      let indexDisplay = { articles: dbArticle}
+      res.render("index", indexDisplay);
     })
     .catch(function(err) {
-      // If an error occurred, send it to the client
       res.json(err);
     });
+  });
+
+ // Route for populating article with comments
+app.get("/articles/:id", function(req, res) {
+  db.Article.findOne({ _id: req.params.id })
+  .populate("comment")
+  .then(function(dbArticle) {
+    // render handlebars page
+    res.render("article", dbArticle);
+  })
+  .catch(function(err) {
+    res.json(err);
+  });
 });
 
-  app.post("/articles/:id", function(req, res) {
+app.post("/articles/:id", function(req, res) {
     console.log(req.body + " post route")
     db.Comments.create(req.body)
       .then(function(dbComments) {
-        return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { comment: dbComments._id } }, { new: true });
+        return db.Article.findOneAndUpdate({ _id: req.params.id },
+          { $push: { 
+            comment: dbComments._id 
+          } },
+          { new: true });
       })
       .then(function(dbArticle) {
-        // If we were able to successfully update an Article, send it back to the client
         res.render("article", dbArticle);
       })
       .catch(function(err) {
-        // If an error occurred, send it to the client
         res.json(err);
       });
   });
 
-  app.delete("/articles/:id", function(req, res) {
-    // if (err) throw err;
+app.delete("/articles/:id", function(req, res) {
   var myquery = { _id: req.params.id};
-  console.log(myquery);
   db.Comments.deleteOne(myquery, function(err, obj) {
     if (err) throw err;
     console.log("1 document deleted");
   })
   .then(function(dbArticle) {
-    // If we were able to successfully update an Article, send it back to the client
     res.render("article", dbArticle);
   })
   .catch(function(err) {
-    // If an error occurred, send it to the client
     res.json(err);
   });
 });
