@@ -29,16 +29,21 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-var MONGODB_URI = process.env.MONGODB_URI;
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI || "mongodb://Casey:Cdc108mlb@ds123400.mlab.com:23400/heroku_13tbmm52", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
+
+
 // Connect to the Mongo DB locally if those parentheses up there don't work
 
-// mongoose.connect("mongodb://localhost/wiki-scraper", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: false
-// });
+mongoose.connect("mongodb://localhost/wiki-scraper", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
 
 app.engine('handlebars', ehb({ defaultLayout: 'main' }))
 

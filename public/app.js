@@ -19,8 +19,7 @@ $(document).on("click", ".post-button", function() {
       .then(function(data) {
         // Log the response
         console.log(data);
-        // Empty the notes section
-        // $("#notes").empty();
+        window.location.reload(true);
       });
   
     // Also, remove the values entered in the input and textarea for note entry
@@ -35,7 +34,7 @@ $(document).on("click", ".post-button", function() {
       url: "/articles/" + id
     })
     .then(() => {
-      location.reload(true);
+      window.location.reload(true);
     })
 
   })
