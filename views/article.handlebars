@@ -1,8 +1,8 @@
 <div class="container">
     <a href="/articles"><button class="btn btn-outline-secondary btn-sm back">back</button></a>
     <div class="jumbotron">
-    <h1 class="text-center">Wiki-Scrapes</h1>
-  </div>
+        <h1 class="text-center">WikiScrapes</h1>
+    </div>
     <div class="row">
         <div class="col s4">
             <h3 class="comment-page-title">{{this.title}}</h3>
@@ -22,21 +22,21 @@
                     value="Submit">Submit</button>
             </form>
         </div>
-    
-    <div class="col s2">
-        {{#if this.comment}}
-        {{#each this.comment}}
-        <div class="card">
-            <p class="comment-card">{{this.name}}</p>
-            <p class="comment-card">{{this.comment}}<p>
+
+        <div class="col s2">
+            {{#if this.comment}}
+            {{#each this.comment}}
+            <div class="card">
+                <p class="comment-card">{{this.name}}</p>
+                <p class="comment-card">{{this.comment}}<p>
                 <div>
-            <button class="btn btn-danger btn-sm delete" data-id="{{this.id}}">delete</button>
+                    <button class="btn btn-danger btn-sm delete" data-id="{{this.id}}">delete</button>
+                </div>
             </div>
+            {{/each}}
+            {{else}}
+            <p>No Comments Yet.</p>
+            {{/if}}
         </div>
-        {{/each}}
-        {{else}}
-        <p>No Comments Yet.</p>
-        {{/if}}
-    </div>
     </div>
 </div>

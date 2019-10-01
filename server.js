@@ -4,7 +4,7 @@ const ehb = require('express-handlebars')
 const cheerio = require("cheerio");
 const axios = require("axios");
 
-// Express middleware for logging requests and responses. Used during development so you can see what requests are being made
+// Express middleware for logging requests and responses.
 const logger = require("morgan");
 
 const db = require("./models");
@@ -20,9 +20,7 @@ app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Make public a static folder
 app.use(express.static("public"));
-
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://Casey:Cdc108mlb@ds123400.mlab.com:23400/heroku_13tbmm52", {
   useNewUrlParser: true,
