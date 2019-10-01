@@ -17,3 +17,11 @@ h1, h2, h3, h4 {
 .comment-page-title {
     margin: 2%;
 }
+
+.back {
+    margin: 5px 0px;
+}
+
+.comment-card {
+    margin: 0px 0px 5px;
+}
